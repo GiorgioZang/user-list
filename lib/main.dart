@@ -1,6 +1,26 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
+import 'package:chopper/chopper.dart';
+import 'package:json_user/user_list.dart';
 
-void main() {
+void main() async {
+  final chopper = ChopperClient(
+    baseUrl: 'https://api.github.com/',
+    services: [UserService.create()],
+  );
+
+  final chopperReq = chopper.getService<UserService>();
+  try {
+    final response = await chopperReq.getUserList();
+    if (response.isSuccessful) {
+      final body = response.body;
+    } else {
+      final code = response.statusCode;
+    }
+  } catch (e, stack) {
+    print("error: $e $stack");
+  }
+
   runApp(MyApp());
 }
 
